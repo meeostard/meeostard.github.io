@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="graceoflives">
+    <meta name="description" content="Show the world your unparallel progress on Clicker Heroes! You can choose which part to display.">
+    <meta name="keywords" content="Clicker Heroes, CH, Clicker Lister, Progression, Data">
+    <meta property="og:description" content="Show the world your unparallel progress on Clicker Heroes! You can choose which part to display">
+    <meta property="og:image" content="favicon.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1000">
+    <meta property="og:image:height" content="1000">
+    <meta property="og:site_name" content="Clicker Heroes - Lister">
+    <meta property="og:title" content="Show your amazing game to the world!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://graceoflives.github.io/clicker-lister/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>点击英雄 游戏进度分享器</title>
+    <!--Themes-->
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link id="style" rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="font-awesome.min.css">
+    <script src="jquery.311.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script type="text/javascript" src="decimal.min.js"></script>
+    <script type="text/javascript" src="jquery.1122.min.js"></script>
+    <script async type="text/javascript" src="pako.min.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript" src="decoder.js"></script>
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Inconsolata');
+    textarea {
+        font-family: 'Inconsolata', monospace;
+    }
+    </style>
+</head>
+
+<body>
+    <h1 class="text-center">点击英雄 游戏进度分享器</h1>
+    <div class="col-xs-12 col-sm-12">
+        <form class="form-inline text-center" id="themeChoice">
+            <input type="radio" name="theme" id="dark" value="dark" checked>
+            <label for="dark">暗色主题</label>
+            <input type="radio" name="theme" id="light" value="light" style="margin-left: 10px;">
+            <label for="light">亮色主题</label>
+        </form>
+        <div class="col-sm-2"></div>
+        <div class="col-xs-12 col-sm-4">
+            <label class="form-control btn btn-info">
+                浏览存档文件……
+                <input class="hidden" type="file" id="savegameFile" />
+            </label>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <input class="form-control" type="text" id="savegameText" placeholder="或者在此处粘贴存档" />
+        </div>
+        <div class="clearfix"></div>
+        <div class="text-center" style="margin-top: 10px;">
+            <span class="text-center">单机右侧按钮以切换是否显示该部分数据：&nbsp;</span>
+            <span class="button-checkbox">
+                <button type="button" class="btn btn-sm" data-color="info">超神器</button>
+                <input type="checkbox" value="outsiders" class="hidden" checked />
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn btn-sm" data-color="info">神器</button>
+                <input type="checkbox" value="ancients" class="hidden" checked />
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn btn-sm" data-color="info">金身</button>
+                <input type="checkbox" value="gilds" class="hidden" checked />
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn btn-sm" data-color="info">杂项</button>
+                <input type="checkbox" value="miscs" class="hidden" checked />
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn btn-sm" data-color="info">时间</button>
+                <input type="checkbox" value="times" class="hidden" checked />
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn btn-sm" data-color="info">装备</button>
+                <input type="checkbox" value="relics" class="hidden"/>
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn btn-sm" data-color="info">节日活动</button>
+                <input type="checkbox" value="event" class="hidden"/>
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn btn-sm" data-color="info">装备属性总和</button>
+                <input type="checkbox" value="totalRelicBonuses" class="hidden" checked />
+            </span>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2" style="margin-top: 10px;">
+            <textarea class="form-control" id="result" placeholder="综合信息" rows="15" onclick="this.select();"></textarea>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-12 col-sm-4 col-sm-offset-2" style="margin-top: 10px;">
+            <textarea class="form-control" id="log_t" placeholder="超转记录" rows="15" onclick="this.select();"></textarea>
+        </div>
+        <div class="col-xs-12 col-sm-4" style="margin-top: 10px;">
+            <select class="form-control" style="height: 53px; margin-bottom: 10px;">
+                <option selected style="display: none;">请选择查看第几次超转</option>
+            </select>
+            <textarea class="form-control" id="log_a" placeholder="转生记录" rows="12" onclick="this.select();"></textarea>
+        </div>
+        <div class="clearfix"></div>
+        <div style="margin-top: 10px;">
+            <p>作者：graceoflives.</p>
+        </div>
+    </div>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-102196022-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+</body>

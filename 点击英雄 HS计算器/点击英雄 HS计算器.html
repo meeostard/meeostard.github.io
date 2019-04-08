@@ -1,0 +1,524 @@
+﻿<!DOCTYPE html>
+<!--           -->
+<!-- HAIL BORB -->
+<!--           -->
+<html>
+
+<head>
+    <meta http-equiv=Content-type content="text/html; charset=utf-8">
+    <title>点击英雄 HS计算器</title>
+    <meta name=viewport content="initial-scale=1,maximum-scale=1">
+    <link rel=stylesheet href=light.css id=theme-light title=Light>
+    <link rel=stylesheet href=dark.css id=theme-dark title=Dark>
+    <script>
+        // Set theme in the head to prevent flash of wrongly styled content
+        if (typeof(Storage) !== "undefined") {
+            if (localStorage.hasOwnProperty("theme")) {
+                var theme = localStorage["theme"];
+            }
+
+            // Because of a bug in Chrome (regarding the dark theme)
+            // we first have to disable the chosen theme, then enable it
+            if (theme != "dark") {
+                document.getElementById('theme-dark').disabled = true;
+
+                document.getElementById('theme-light').disabled = true;
+                document.getElementById('theme-light').disabled = false;
+            } else {
+                document.getElementById('theme-light').disabled = true;
+
+                document.getElementById('theme-dark').disabled = true;
+                document.getElementById('theme-dark').disabled = false;
+            }
+        }
+    </script>
+    <link rel=apple-touch-icon sizes=57x57 href=apple-touch-icon-57x57.png>
+    <link rel=apple-touch-icon sizes=60x60 href=apple-touch-icon-57x57.png>
+    <link rel=apple-touch-icon sizes=72x72 href=apple-touch-icon-57x57.png>
+    <link rel=apple-touch-icon sizes=76x76 href=apple-touch-icon-57x57.png>
+    <link rel=apple-touch-icon sizes=114x114 href=apple-touch-icon-57x57.png>
+    <link rel=apple-touch-icon sizes=120x120 href=apple-touch-icon-57x57.png>
+    <link rel=apple-touch-icon sizes=144x144 href=apple-touch-icon-57x57.png>
+    <link rel=apple-touch-icon sizes=152x152 href=apple-touch-icon-57x57.png>
+    <link rel=apple-touch-icon sizes=180x180 href=apple-touch-icon-57x57.png>
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta name=apple-mobile-web-app-status-bar-style content=black-translucent>
+    <meta name=apple-mobile-web-app-title content=kepow-clickerheroes>
+    <link rel=icon type=image/png sizes=32x32 href=favicon-32x32.png>
+    <link rel=icon type=image/png sizes=16x16 href=favicon-16x16.png>
+    <link rel="shortcut icon" href=favicon.ico>
+    <meta name=mobile-web-app-capable content=yes>
+    <meta name=theme-color content=#fff>
+    <meta name=application-name content=kepow-clickerheroes>
+    <link rel=apple-touch-startup-image media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 414px) and (device-height: 736px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 414px) and (device-height: 736px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 1)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" href=apple-touch-startup-image-320x460.png>
+    <link rel=apple-touch-startup-image media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" href=apple-touch-startup-image-320x460.png>
+</head>
+
+<body>
+    <div class="modal fade" id=modal tabindex=-1 role=dialog aria-labelledby=modal-title aria-hidden=true>
+        <div class=modal-dialog role=document>
+            <div class=modal-content>
+                <div class=modal-header>
+                    <h5 class=modal-title id=modal-title>Placeholder</h5>
+                    <button type=button class=close data-dismiss=modal aria-label=Close><span aria-hidden=true><i class="fa fa-times"></i></span></button>
+                </div>
+                <div class=modal-body id=modal-body>...</div>
+                <div class=modal-footer>
+                    <button type=button class="btn btn-secondary" id=modal-btn data-dismiss=modal>Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container pt-3 pb-3">
+        <div class="row mb-3">
+            <div class=col-12>
+                <div class="card border-info">
+                    <div class="card-header text-muted"><h4>点击英雄 HS计算器&emsp;&emsp;作者：beskhue&emsp;&emsp;汉化：Radianter</h4></div>
+                    <div class=card-body>
+                        <p>使用前提：挂机流和混合流必须要有抛弃神器(Siya)，点击流必须要有暴怒神器(Frag)。</p>
+                        <p>需要本计算器源代码的可以查看 <a href=https://github.com/Beskhue/ClickerHeroesCalculator>这里</a>。有使用问题欢迎到百度点击英雄吧提问。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <main class=row>
+            <div class="col-12 col-md-5">
+                <div class="card border-primary mb-3">
+                    <div class="card-header text-muted">
+                        <div class=row>
+                            <div class=col><span class=align-middle><i class="fa fa-database mr-2"></i> 输入数据</span></div>
+                            <div class=col-auto-md>
+                                <button class="btn btn-outline-secondary btn-sm" type=button data-toggle=collapse data-target=#input-collapse aria-expanded=false aria-controls=input-collapse><i class="fa fa-bars"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body collapse show" id=input-collapse>
+                        <div class=form-group>
+                            <label for=savedata>存档粘贴处</label>
+                            <textarea class="form-control w-100" id=savedata style=height:80px onclick=this.select() autofocus></textarea>
+                            <button type=button class="btn btn-outline-primary btn-block mt-3" id=import><i class="fa fa-caret-right mr-2"></i>导入存档</button>
+                            <div class="panel-settings mt-3">
+                                <div class=form-check>
+                                    <label class="form-check-label mb-2">
+                                        <input class=form-check-input type=checkbox id=addsouls> 包括下次转生才能后得到的英魂</label>
+                                    <label class="form-check-label mb-2">
+                                        <input class=form-check-input type=checkbox id=wep8k> 当前转生能达到的最强英雄可以超过8000级</label>
+                                    <label class="form-check-label mb-2">
+                                        <input class=form-check-input type=checkbox id=copyancientlevels> 鼠标点击时自动复制神器升级量</label>
+                                    <label class=form-check-label>
+                                        <input class=form-check-input type=checkbox id=displayadvancedconfiguration> 显示高级配置</label>
+                                </div>
+                                <hr>
+                                <div class=form-check>游戏风格
+                                    <label class="form-check-label ml-3">
+                                        <input class=form-check-input type=radio name=buildmode value=idle checked=checked> 挂机流</label>
+                                    <label class="form-check-label ml-3">
+                                        <input class=form-check-input type=radio name=buildmode value=hybrid> 混合流</label>
+                                    <label class="form-check-label ml-3">
+                                        <input class=form-check-input type=radio name=buildmode value=active> 点击流</label>
+                                </div>
+                                <div id=hybridratiocontainer>
+                                    <label for=hybridratio>点击流/挂机流神器比例 (默认值0.5)</label>
+                                    <div>
+                                        <input id=hybridratio data-slider-id=hybridratioSlider type=text data-slider-step=0.05 data-slider-scale=logarithmic data-slider-ticks="[0.05, 0.1, 0.5, 1, 2, 3, 4, 5, 10, 20]" data-slider-ticks-snap-bounds=0.05 value=0.5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id=advancedconfiguration class="card border-primary mb-3">
+                    <div class="card-header text-muted">
+                        <div class=row>
+                            <div class=col><span class=align-middle><i class="fa fa-sliders mr-2"></i> 高级配置</span></div>
+                            <div class=col-auto-md>
+                                <button class="btn btn-outline-secondary btn-sm" type=button data-toggle=collapse data-target=#config-collapse aria-expanded=false aria-controls=config-collapse><i class="fa fa-bars"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body collapse show" id=config-collapse>
+                        <div>
+                            <label for=revolcrate>升级幸运神器(Revolc)
+                                <br>(0 = 完全不升, 1 = 尽量提升)</label>
+                            <div>
+                                <input id=revolcrate data-slider-id=revolcrateSlider type=text data-slider-ticks="[0, 1]" data-slider-step=0.1 value=0.3>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <label for=skillancientsrate>升级延长技能时间的神器
+                                <br>(0 = 完全不升, 1 = 尽量提升)</label>
+                            <div>
+                                <input id=skillancientsrate data-slider-id=skillancientsrateSlider type=text data-slider-ticks="[0, 1]" data-slider-step=0.1 value=0.1>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <label for=skillancientsrate>计算精度 (低精度速度快，高精度结果准)</label>
+                            <div>
+                                <input id=precision data-slider-id=precisionSlider type=text data-slider-ticks="[4, 35]" data-slider-scale=logarithmic data-slider-step=0.05 value=7>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class=form-check>
+                            <label class="form-check-label mb-2">
+                                <input class=form-check-input type=checkbox id=keepsoulsforregilding> 保留移金身的英魂</label>
+                            <label class=form-check-label>
+                                <input class=form-check-input type=checkbox id=ignoreminimizedancients> 忽略游戏中被最小化的神器</label>
+                        </div>
+                        <hr>
+                        <div class=form-check>
+                            <label class=form-check-label>
+                                <input class=form-check-input type=checkbox id=collapseancienttableonsmallscreens> 在小屏幕设备上折叠神器标签页</label>
+                        </div>
+                        <div class=form-check>主题
+                            <label class="form-check-label ml-3">
+                                <input class=form-check-input type=radio name=theme value=light checked=checked> 亮色</label>
+                            <label class="form-check-label ml-3">
+                                <input class=form-check-input type=radio name=theme value=dark> 暗色</label>
+                        </div>
+                        <hr>
+                        <div class=form-check>
+                            <label class=form-check-label>
+                                <input class=form-check-input type=checkbox id=displaysavegamegeneration> 启用自动加点(自动生成存档)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-7">
+                <div id=generatedsavedatacontainer class="card border-primary mb-3">
+                    <div class="card-header text-muted">
+                        <div class=row>
+                            <div class=col><span class=align-middle><i class="fa fa-pencil mr-2"></i> 自动生成的存档</span></div>
+                            <div class=col-auto-md>
+                                <button class="btn btn-outline-secondary btn-sm" type=button data-toggle=collapse data-target=#savegame-collapse aria-expanded=false aria-controls=savegame-collapse><i class="fa fa-bars"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body collapse show" id=savegame-collapse>
+                        <label for=generatedsavedata>把以下存档导入游戏：</label>
+                        <textarea class="form-control w-100" id=generatedsavedata style=height:80px onclick=this.select() autofocus></textarea>
+                        <div class="card border-warning mt-3">
+                            <div class=card-body>自动加点并生成存档以供导入游戏还是实验性功能，请注意备份好存档。有问题请联系我。</div>
+                        </div>
+                    </div>
+                </div>
+                <div id=output role=tabpanel>
+                    <ul class="nav nav-tabs" role=tablist>
+                        <li class=nav-item><a class="nav-link active" href=#tab-ancients data-toggle=tab href=#tab-ancients role=tab>神器</a></li>
+                        <li class=nav-item><a class=nav-link href=#tab-outsiders data-toggle=tab href=#tab-outsiders role=tab>超神器</a></li>
+                        <li class=nav-item><a class=nav-link href=#tab-other data-toggle=tab href=#tab-other role=tab>其它</a></li>
+                    </ul>
+                    <div class=tab-content>
+                        <div role=tabpanel class="tab-pane active" id=tab-ancients>
+                            <div class=panel-heading></div>
+                            <table id=ancienttbl class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="col1 border-top-0"></th>
+                                        <th class="col2 border-top-0">当前等级</th>
+                                        <th class="col3 border-top-0">目标等级</th>
+                                        <th class="col4 border-top-0">升级量</th>
+                                        <th class="col5 border-top-0">HS消耗</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class=odd_row>
+                                        <th scope=row class=col1>英魂</th>
+                                        <td class=col2>
+                                            <input type=text id=soulsin value=0 disabled=disabled>
+                                        </td>
+                                        <td class=col3><span id=soulsgoal></span></td>
+                                        <td class=col4><span id=soulschange></span></td>
+                                        <td class=col5></td>
+                                    </tr>
+                                </tbody>
+                            </table><small id=calculationtime class=text-muted></small></div>
+                        <div role=tabpanel class=tab-pane id=tab-outsiders>
+                            <table id=outsidertbl class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class=border-top-0>超神器</th>
+                                        <th class=border-top-0>当前等级</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div role=tabpanel class=tab-pane id=tab-other>
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>
+                                        <label for=tp>TP%</label>
+                                    </td>
+                                    <td>
+                                        <input type=text id=tp disabled=disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for=ascensionzone>历史最高层数</label>
+                                    </td>
+                                    <td>
+                                        <input type=text id=ascensionzone disabled=disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for=astotal>总AS数</label>
+                                    </td>
+                                    <td>
+                                        <input type=text id=astotal disabled=disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for=gilds>总金身数</label>
+                                    </td>
+                                    <td>
+                                        <input type=text id=gilds disabled=disabled>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class=as-planner>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class=col1>再获得n个AS</th>
+                                            <th class=col2>需牺牲HS总数</th>
+                                            <th class=col3>还差HS数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>0 AS</td>
+                                            <td>0 HS</td>
+                                            <td>0 HS</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class=row>
+            <div class=col-12>
+                <div role=tabpanel id=about>
+                    <ul class="nav nav-tabs" role=tablist>
+                        <li class=nav-item><a class="nav-link active" href=#tab-about aria-controls=tab-about role=tab data-toggle=tab>关于</a></li>
+                        <li class=nav-item><a class=nav-link href=#tab-faq aria-controls=tab-faq role=tab data-toggle=tab>常见问题</a></li>
+                        <li class=nav-item><a class=nav-link href=#tab-changelog aria-controls=tab-changelog role=tab data-toggle=tab>更新日志</a></li>
+                    </ul>
+                    <div class=tab-content>
+                        <div role=tabpanel class="tab-pane active p-3" id=tab-about>
+                            <p><em>A calculator for Clicker Heroes, by <a href=https://www.reddit.com/u/beskhue>/u/beskhue</a>.</em></p>
+                            <p>This calculator uses the <em><a href=https://www.reddit.com/r/ClickerHeroes/comments/4naohc/math_and_transcendance/ >Rules of Thumb</a></em> to offer ancient suggestions. The calculator distributes the available hero souls among the available ancients.</p>
+                            <p>See also: <a href=https://www.reddit.com/user/Shruikan864>/u/Shruikan864</a>'s <a href=https://www.reddit.com/r/ClickerHeroes/comments/4nox6i/rules_of_thumb_10_spreadsheet/>Rules of Thumb 1.0 Spreadsheet</a> and <a href=https://www.reddit.com/user/sugima>/u/sugima</a>'s <a href=https://www.reddit.com/r/ClickerHeroes/comments/4naohc/math_and_transcendance/>1.0 Rules of Thumb</a>.</p>
+                            <p>Data structure is loosely based on the code by <a href=https://philni.neocities.org/ancientssoul.html>/u/philni</a>, which is based on the code by <a href=https://s3-us-west-2.amazonaws.com/clickerheroes/ancientssoul.html>/u/rler</a>, which in turn was based on the original calculator and source from <a href=http://www.rivsoft.net/clicker/ancientssoul>rivsoft</a>. Visit <a href=https://www.reddit.com/r/clickerheroes>/r/clickerheroes</a> for more info.</p>
+                        </div>
+                        <div role=tabpanel class="tab-pane p-3" id=tab-faq>
+                            <h5>What is the easiest method to level ancients?</h5>
+                            <p>If you press on the number in the <em>change</em> field, the number changes to a long format and is automatically selected for copying. If you hold &quot;v&quot; when clicking on the corresponding ancient's purchase button, an input field will pop up. Paste the number you just copied into this field, and press &quot;Ok&quot;.</p>
+                            <h5>Why does the calculator tell me to level Morgulis more than I am able to?</h5>
+                            <p>It probably doesn't. If you have the outsider Chor'gorloth leveled, all ancients become cheaper, including Morgulis. This means that one level in Morgulis costs less than one soul when buying in bulk.</p>
+                            <h5>After buying the recommended ancients, why do I have more souls left over than the calculator predicts?</h5>
+                            <p>Firstly, when you have many souls to spend the calculator will over-estimate the cost of a few ancients with a &quot;difficult&quot; cost formula. This approximation is accurate enough to yield very good recommendations; calculating it precisely often does not actually make a difference in regard to the number of levels recommended. Only the predicted cost becomes more accurate. Secondly, when you have only few souls to spend the predicted cost is accurate as far as the cost formulae go; there appear to be some issues in-game where an ancient sometimes costs one soul less or more than it should.</p>
+                            <h5>What does this &quot;best hero will be leveled beyond 8,000&quot; mean?</h5>
+                            <p>Level 8,000 is the last level where heroes get a x10 multiplier to their damage. After level 8,000 their damage increase factor is reduced. This affects the optimal distribution of ancient levels. If you level a hero beyond level 8,000 and cannot afford a better hero that has a lower level, then check this box.</p>
+                            <h5>What hybrid ratio should I go with?</h5>
+                            <p>This depends on your personal play style. A good starting point is to go with a ratio of 0.5. This works well if you usually push at the end of a run. If you notice you do not often push, drop to a lower ratio. If you notice you often push for many zones, go higher. Perhaps you only idle at the very start of an ascension. In that case, going higher than a ratio of 1 makes sense.</p>
+                        </div>
+                        <div role=tabpanel class=tab-pane id=tab-changelog>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class=border-top-0>Date</th>
+                                        <th class=border-top-0>Change</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2018/01/29</td>
+                                        <td>Implement hard level cap for capped ancients.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/11/18</td>
+                                        <td>Allow selection of desired calculator precision.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/11/18</td>
+                                        <td>Add a dark theme.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/11/18</td>
+                                        <td>Make save-game generation publicly available.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/11/18</td>
+                                        <td>Improve layout.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/11/17</td>
+                                        <td>Add Pluto.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/07/22</td>
+                                        <td>Prepare for upcoming new save game encodings.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/05/08</td>
+                                        <td>Improved layout and added support for small screen sizes. Thanks <a href=https://github.com/Stuffbutts>Stuffbutts</a>!</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/03/24</td>
+                                        <td>Added option to ignore ancients that are minimized in the game. Thanks <a href=https://www.reddit.com/user/homernh>homernh</a>!</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/02/16</td>
+                                        <td>Support some older browsers.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/02/07</td>
+                                        <td>Removed the unnecessary &quot;update&quot; button. Changing a setting already automatically triggered an update.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2017/01/26</td>
+                                        <td>Added ancient soul planner.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/12/16</td>
+                                        <td>Make optimization process adaptive to make optimization quicker.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/12/16</td>
+                                        <td>Add support for very big numbers.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/12/09</td>
+                                        <td>Add advanced configuration options: leveling the auxiliary ancients and reserving hero souls for regilding.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/12/08</td>
+                                        <td>Add ability to copy suggested ancient level changes directly to the clipboard. Thanks <a href=https://github.com/emiln>emiln</a>!</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/12/01</td>
+                                        <td>Improve data model.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/11/17</td>
+                                        <td>Add Nogardnit.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/07/26</td>
+                                        <td>Improve suggestions for the case where Wepwawet will be leveled beyond level 8,000.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/07/02</td>
+                                        <td>Add FAQ.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/07/01</td>
+                                        <td>Add adjustable hybrid ratio.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/20</td>
+                                        <td>Implemented much better cost approximation.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/20</td>
+                                        <td>Implemented quicker and more precise formulae.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/17</td>
+                                        <td>Update rule for Kumawakamaru.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/16</td>
+                                        <td>Display TP reward cap zone.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/16</td>
+                                        <td>Remove Solomon leveling at TP cap based on new calculations.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/16</td>
+                                        <td>Implemented Solomon leveling at TP cap.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/16</td>
+                                        <td>Support Atman and Kumawakamaru pre-transcendence (note that optimal RoTs still need to be devised for these ancients).</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/16</td>
+                                        <td>Add method to underlevel Solomon.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/16</td>
+                                        <td>Solomon calculation is now correct pre-transcendence.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/15</td>
+                                        <td>Implement easier copying of ancient level changes.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/15</td>
+                                        <td>If Morgulis is not owned, keep a soul bank.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/15</td>
+                                        <td>Further improvements to optimization speed. Notably, optimization (for high HS) now runs in constant time.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/15</td>
+                                        <td>Now correctly takes into account HS requirement to upgrade Siyalatas.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/15</td>
+                                        <td>Optimization when there are a lot of HS to distribute is now significantly faster.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/14</td>
+                                        <td>Added support for hybrid and active builds.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2016/06/14</td>
+                                        <td>Initial release.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-45620982-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script type=text/javascript src=main-f8b6953406446dd0777b.js></script>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="cn">
+<head>
+	<meta http-equiv="content-type" content="text/html;">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>点击英雄 TL计算器 v1.0e11</title>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="main-v002.css">
+    <link id="theme" rel="stylesheet" href="light-theme-v001.css">
+	<link rel="icon" type="image/png" href="Chronos.png">
+	<script src="jquery.min.js"></script>
+</head>
+	<body>
+		<div class="container">
+			<div class="boxes">
+				<div class="box-12">
+					<div>
+						<div class="title">欢迎使用Radianter从官网上偷来并汉化的跟AS计算器一样弄坏了暗色主题的TL计算器</div>
+						<div class="content">
+							<p>请在此反馈使用意见：<a href="https://redd.it/7z4982">https://redd.it/7z4982</a></p>
+							<p>购买TL前请至少保持1个自动点击手未使用，否则节制神器锡龙(Nogardnit)不会生效。(最后更新2018.02.19)</p>
+							<p>持续秒杀点击的速度是8000层/小时，请选择自己满意的时间停止使用TL。</p>
+						</div>
+					</div>
+				</div>
+				<div class="box-4">
+					<div>
+						<div class="title">数据输入</div>
+						<div class="content">
+							<div class="numberInput">
+								<p>英魂对数：</p>
+								<input value="150" id="hero_souls" type="text">
+								(填英魂e后的数字)
+							</div>
+							<div class="numberInput">
+								<p>Xyliqil：</p>
+								<input value="0" id="xyliqil_level" type="text">
+								(犀利契等级)
+							</div>
+							<div class="numberInput">
+								<p>Chor'gorloth：</p>
+								<input value="0" id="chor_level" type="text">
+								(楚格洛斯等级)
+							</div>
+                            <input type="checkbox" id="TL168" class="checkbox" checked onclick="refresh()">启用168小时TL
+                            <br><input type="checkbox" id="dark" class="checkbox" onclick="changeTheme()">暗色主题 (请勿勾选)
+							<br><button id="calculateButton" onclick="refresh()">计算</button>
+                            <hr>
+                            <button id="showAdvanced" onclick="showAdvancedClick()">显示高级设置</button>
+                            <div id="advancedSettings">
+								<div class="numberInput">
+									<p>最低TL跳跃层数：</p>
+									<input id="minZones" type="text" style="font-size:12px;">
+								</div>
+                                <div class="numberInput">
+									<p>QA策略：</p>
+									<select id="QAStrat" onChange="refresh();">
+                                        <option value="perRuby">层数/红宝石比</option>
+                                        <option value="highest">最高层数</option>
+                                    </select>
+								</div>
+								<button id="defaultButton" onclick="defaultClick()">恢复默认值</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-8">
+					<div>
+						<div class="title">结果</div>
+						<div class="content">
+							<table id="TimelapsesTable" cellspacing="0">
+								<thead><tr>
+									<th>时长</th>
+									<th>英雄</th>
+									<th>等级</th>
+									<th>层数</th>
+								</tr></thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+							<br>
+							<div id="RubyCost"></div>
+							<div id="Recommend"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="boxes">
+				<div class="box-4">
+					<div>
+						<div class="title">读取存档</div>
+						<div class="content">
+							<textarea id="savegame" placeholder="存档粘贴处" autofocus onclick="this.focus();this.select()"></textarea>
+							<br><button id="readSaveButton" onclick="readSave()">读取存档</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="pako-bundle.min.js"></script>
+		<script src="readSave.js"></script>
+		<script src="main.js"></script>
+	</body>
+</html>

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="cn">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="bootstrap.min.js"></script>
+    <script src="jquery-3.2.1.slim.min.js"></script>
+    <script src="popper.min.js"></script>
+    
+    <script src="main.js"></script>
+    <script src="heroes.js"></script>
+    
+    <title>点击英雄 游戏后期转生进度计算器</title>
+    
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="text-center">点击英雄 游戏后期转生进度计算器</h3>
+                <h6 class="text-center">游戏版本: 1.0e11. 作者<a href="https://www.reddit.com/user/qubit64/">/u/qubit64 </a> 汉化：Radianter</h6>
+            </div>
+        </div>
+        <div class="row pb-2">
+            <div class="col">
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <p>此工具引用了 
+                            <a href="https://www.reddit.com/r/ClickerHeroes/comments/7jpdmw/end_game_zone_200k_progression/">我的数学计算结果</a>。 
+                            想要反馈本计算器的使用意见请 
+                            <a href="https://www.reddit.com/r/ClickerHeroes/comments/7m5jnd/end_game_zone_200k_progression_calculator">点这里</a>。 
+                            <br><h7 style="font-family:verdana;color:red">使用本工具的前提：金身至少移到了Xavira，并且至少达到200K层。
+							<br>英魂对数是指以10为底的Log(英魂数)，可以简单理解为英魂数e后面的数字。</h7>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row font-weight-bold">
+            <div class="col">  
+                <div class="card border-primary">
+                    <div class="card-body">
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <label for="inputAS">AS:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input class="form-control" placeholder="填AS数" id="inputAS">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <label for="inputLgHS" class="pr-2">英魂对数:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input class="form-control" placeholder="填英魂数e后面的数字" id="inputLgHS">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-sm-6">
+                                <button type="button" class="btn btn-primary btn-block" id="calc" onclick="calculateProgression()">计算</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <label for="outputTP" class="pr-2">TP:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input class="form-control" id="outputTP" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h5 id="inputWarning" class="text-danger"></h5>
+            
+        <div class="row">
+            <div class="col table-responsive">
+                <table class="table table-sm table-hover text-center" id="progressTbl">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>转生数</th>
+                            <th>英魂对数</th>
+                            <th>英雄</th>
+                            <th>层数</th>
+                            <th>英雄等级</th>
+                            <th>英魂对数增长</th>
+                            <th>最高TL层数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

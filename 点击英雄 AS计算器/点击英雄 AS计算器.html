@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html;">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=0">
+    <meta name="theme-color" content="#5060b0">
+    <meta name="Description" content="Get Outsider Suggestions for Clicker Heroes version e10 or e11.">
+	<title>点击英雄 AS计算器</title>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/main-v004.css">
+    <link rel="stylesheet" href="css/light-theme-v003.css" id="theme-light" title="Light">
+    <link rel="stylesheet" href="css/dark-theme-v003.css" id="theme-dark" title="Dark" disabled>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/ruby192.png">
+    <script>
+        if (localStorage) {
+            if (localStorage.getItem("darkmode")==="true") {
+                document.getElementById("theme-light").disabled = true;
+                document.getElementById("theme-dark").disabled = false;
+            }
+        }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+	<link rel="icon" type="image/png" href="Ruby.png">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script>
+</head>
+	<body>
+		<main class="container" role="main">
+			<div class="boxes">
+				<div class="box-12 collapsible">
+					<div class="panel">
+						<div class="title">说明</div>
+						<div class="content">
+							<p>更多说明或意见建议: <a href="https://redd.it/7on5it">https://redd.it/7on5it</a></p>
+							<p>本计算器仅支持混合流与点击流的计算。</p>
+						</div>
+					</div>
+				</div>
+                <div class="box-12 info">
+                    <div id="checkResults">
+                        test
+                    </div>
+                </div>
+				<div class="box-4">
+					<div class="panel">
+						<div class="title">数据输入</div>
+						<div class="content">
+							<div class="numberInput">
+								<label for="ancient_souls">AS数:</label>
+								<input value="0" id="ancient_souls" type="text">
+							</div>
+							<div id="TP">超越之力: 2.0000%</div>
+							<br><input type="checkbox" id="reserveAS" class="checkbox" onclick="clearOutput();refresh()"><label for="reserveAS">保留少量AS不使用</label>
+                            <br><input type="checkbox" id="dark" class="checkbox" onclick="changeTheme()"><label for="dark">暗色主题</label>
+							<br><button id="calculateButton" onclick="clearOutput();refresh()">计算</button>
+                            <br><br>
+                            <label for="savegame">游戏存档粘贴处</label>
+							<textarea id="savegame" placeholder="存档代码粘贴在此" autofocus onclick="this.focus();this.select()" onblur="readSave()"></textarea>
+                            <div id="autoLevelDiv" style="display:none;">
+                                <label for="outputsave">存档输出</label>
+                                <textarea id="outputsave" placeholder="把此存档导入游戏" onclick="this.select()"></textarea>
+                            </div>
+                            <input type="checkbox" id="autolevel" class="checkbox" onclick="changeAutoLevel()"><label for="autolevel">自动升级</label>
+							<button id="readSaveButton" onclick="readSave()">读取存档</button>
+							<hr>
+							<button id="showAdvanced" onclick="showAdvancedClick()">显示高级设置</button>
+							<div id="advancedSettings">
+								<div class="numberInput">
+									<label for="zoneOverride">Borb(波尔)极限后的层数:</label>
+									<input id="zoneOverride" type="text" style="font-size:12px;">
+                                    <br><input type="checkbox" id="helpText" class="checkbox" onclick="clearOutput();refresh()" checked><label for="helpText">帮助说明</label>
+                                    <br><input type="checkbox" id="levelOrphalas" class="checkbox" onclick="clearOutput();refresh()" checked><label for="levelOrphalas">升级Orphalas</label>
+								</div>
+								<button id="defaultButton" onclick="defaultClick()">恢复默认</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-8" id="results">
+					<div class="panel">
+						<div class="title">超神器加点建议</div>
+						<div class="content">
+							<table id="OutsidersTable" cellspacing="0">
+								<thead><tr>
+									<th>超神器名</th>
+									<th>等级</th>
+									<th>AS消耗</th>
+								</tr></thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+							<div id="share"></div>
+							<div id="unspentAS">未使用点数: 0</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="boxes">
+				<div class="box-4">
+					<div class="panel">
+						<div class="title">超转终点预测</div>
+						<div class="content">
+							<div id="predictedHZE"></div>
+							<div id="predictedHS"></div>
+							<div id="predictedAS"></div>
+							<div id="predictedTP"></div>
+							<br>
+							<div id="predictedAncients"></div>
+							<div id="kuma"></div>
+							<div id="atman"></div>
+							<div id="bubos"></div>
+							<div id="chronos"></div>
+							<div id="dora"></div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="box-4">
+					<div class="panel">
+						<div class="title">超转终点 - 原始数据</div>
+						<div class="content">
+							<div id="unbuffedMPZ"></div>
+							<div id="unbuffedTCC"></div>
+							<div id="unbuffedBossHP"></div>
+							<div id="unbuffedTimer"></div>
+							<div id="unbuffedPBC"></div>
+						</div>
+					</div>
+				</div>
+				<div class="box-4">
+					<div class="panel">
+						<div class="title">超转终点 - 超神器加强后</div>
+						<div class="content">
+							<div id="buffedMPZ"></div>
+							<div id="buffedTCC"></div>
+							<div id="buffedBossHP"></div>
+							<div id="buffedTimer"></div>
+							<div id="buffedPBC"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="boxes">
+				<div class="box-4">
+					<div class="panel">
+						<div class="title">层数临界点</div>
+						<div class="content">
+							<div id="HighMpz"></div>
+							<div id="5PBC"></div>
+							<div id="90BHP"></div>
+							<div id="2sTimer"></div>
+							<div id="99TTC"></div>
+							<div id="1TTC"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/pako.min.js" defer></script>
+		<script src="js/readSave.js" defer></script>
+		<script src="js/main.js" defer></script>
+        <script src="js/autolevel.js" defer></script>
+	</body>
+</html>
