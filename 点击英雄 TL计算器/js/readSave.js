@@ -1,6 +1,5 @@
-let print = false;
-
 function readSave() {
+    readingSave = true;
     let txt = $("#savegame").val();
     let data;
     if (txt.indexOf("Fe12NAfA3R6z4k0z") > -1 || txt.substring(0, 32) === "7a990d405d2c6fb93aa8fbb0ec1a3b23") {
@@ -20,25 +19,31 @@ function readSave() {
             data = JSON.parse(atob(txt));
         }
         let primalSouls = data.primalSouls;
-        let heroSoulsEnd = data.stats.currentAscension.heroSoulsEnd;
-        let logHeroSoulsOnAscend = parseFloat(primalSouls.substr(primalSouls.lastIndexOf("e") + 1));
-        let logHeroSoulsCurrent =  parseFloat(heroSoulsEnd.substr(heroSoulsEnd.lastIndexOf("e") + 1));
-        if (logHeroSoulsOnAscend > logHeroSoulsCurrent) {
-            $("#hero_souls").val(primalSouls);
-        } else {
-            $("#hero_souls").val(heroSoulsEnd);
+        let logHeroSoulsOnAscend = 0;
+        if ($("#primal").is(":checked")) {
+            logHeroSoulsOnAscend = parseFloat(primalSouls.substr(primalSouls.lastIndexOf("e") + 1));
         }
+        let heroSoulsStart = data.stats.currentAscension.heroSoulsStart;
+        let logHeroSoulsCurrent =  parseFloat(heroSoulsStart.substr(heroSoulsStart.lastIndexOf("e") + 1));
+        
+        let useOnAscend = logHeroSoulsOnAscend > logHeroSoulsCurrent;
+        let heroSoulsInput = useOnAscend ? primalSouls : heroSoulsStart;
+        
+        console.log(logHeroSoulsOnAscend, logHeroSoulsCurrent)
+        
+        $("#hero_souls").val(heroSoulsInput);
         let outsiders = data.outsiders.outsiders;
         $("#xyliqil_level").val(outsiders[1].level);
         $("#chor_level").val(outsiders[2].level);
-        if (print) { $("#savegame").val(JSON.stringify(data,null,1)); }
-        refresh();
+        $("#autoclickers").val(data.autoclickers);
+        
+        let IEsucks = refresh({
+            data: data,
+            heroSoulsInput: heroSoulsInput,
+            useOnAscend: useOnAscend
+        });
     } else if (txt) {
         $("#savegame").val("");
     }
 }
 
-function printSave(input=true) {
-    print = Boolean(input);
-    return print;
-}

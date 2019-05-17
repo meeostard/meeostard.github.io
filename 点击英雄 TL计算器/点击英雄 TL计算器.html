@@ -1,72 +1,101 @@
-﻿<!DOCTYPE html>
-<html lang="cn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html;">
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>点击英雄 TL计算器 v1.0e11</title>
-	<link rel="stylesheet" href="normalize.css">
-	<link rel="stylesheet" href="main-v002.css">
-    <link id="theme" rel="stylesheet" href="light-theme-v001.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=0">
+    <meta name="theme-color" content="#5060b0">
+    <meta name="Description" content="Plan your Timelapses for Clicker Heroes.">
+	<title>点击英雄 TL计算器</title>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/main-v004.css">
+    <link rel="stylesheet" href="css/light-theme-v004.css" id="theme-light" title="Light">
+    <link rel="stylesheet" href="css/dark-theme-v003.css" id="theme-dark" title="Dark" disabled>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/chronos192.png">
+    <script>
+        if (localStorage) {
+            if (localStorage.getItem("darkmode")==="true") {
+                document.getElementById("theme-light").disabled = true;
+                document.getElementById("theme-dark").disabled = false;
+            }
+        }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
 	<link rel="icon" type="image/png" href="Chronos.png">
-	<script src="jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" defer></script>
 </head>
 	<body>
-		<div class="container">
+		<main class="container" role="main">
 			<div class="boxes">
-				<div class="box-12">
-					<div>
-						<div class="title">欢迎使用Radianter从官网上偷来并汉化的跟AS计算器一样弄坏了暗色主题的TL计算器</div>
+				<div class="box-12 collapsible">
+					<div class="panel">
+						<div class="title">说明</div>
 						<div class="content">
-							<p>请在此反馈使用意见：<a href="https://redd.it/7z4982">https://redd.it/7z4982</a></p>
+							<p>请在此反馈使用意见: <a href="https://redd.it/7z4982">https://redd.it/7z4982</a></p>
 							<p>购买TL前请至少保持1个自动点击手未使用，否则节制神器锡龙(Nogardnit)不会生效。(最后更新2018.02.19)</p>
-							<p>持续秒杀点击的速度是8000层/小时，请选择自己满意的时间停止使用TL。</p>
+							<p>将鼠标悬停在最后一位英雄身上，看看你解锁它需要的时间！</p>
 						</div>
 					</div>
 				</div>
+                <div class="box-12 warning">
+                    <div id="ancientCheckResults">
+                        
+                    </div>
+                </div>
 				<div class="box-4">
-					<div>
+					<div class="panel">
 						<div class="title">数据输入</div>
 						<div class="content">
 							<div class="numberInput">
-								<p>英魂对数：</p>
+								<label for="hero_souls">英魂e后的数字:</label>
 								<input value="150" id="hero_souls" type="text">
-								(填英魂e后的数字)
 							</div>
 							<div class="numberInput">
-								<p>Xyliqil：</p>
+								<label for="xyliqil_level">犀利契等级:</label>
 								<input value="0" id="xyliqil_level" type="text">
-								(犀利契等级)
 							</div>
 							<div class="numberInput">
-								<p>Chor'gorloth：</p>
+								<label for="chor_level">楚格洛斯等级:</label>
 								<input value="0" id="chor_level" type="text">
-								(楚格洛斯等级)
 							</div>
-                            <input type="checkbox" id="TL168" class="checkbox" checked onclick="refresh()">启用168小时TL
-                            <br><input type="checkbox" id="dark" class="checkbox" onclick="changeTheme()">暗色主题 (请勿勾选)
+                            <div class="numberInput">
+								<label for="autoclickers">点击手数量:</label>
+								<input value="0" id="autoclickers" type="text">
+							</div>
+                            <input type="checkbox" id="dark" class="checkbox" onclick="changeTheme()"><label for="dark">暗色主题</label>
+                            <br>
+                            <input type="checkbox" id="primal" class="checkbox" onclick="readSave()"><label for="primal">使用远古英魂</label>
 							<br><button id="calculateButton" onclick="refresh()">计算</button>
                             <hr>
                             <button id="showAdvanced" onclick="showAdvancedClick()">显示高级设置</button>
                             <div id="advancedSettings">
 								<div class="numberInput">
-									<p>最低TL跳跃层数：</p>
+									<label for="minZones">最低TL跳跃层数:</label>
 									<input id="minZones" type="text" style="font-size:12px;">
 								</div>
                                 <div class="numberInput">
-									<p>QA策略：</p>
+									<label for="QAStrat">QA策略:</label>
 									<select id="QAStrat" onChange="refresh();">
-                                        <option value="perRuby">层数/红宝石比</option>
-                                        <option value="highest">最高层数</option>
+                                        <option value="perRuby">层数/宝石比优先</option>
+                                        <option value="highest">最高层数优先</option>
                                     </select>
 								</div>
-								<button id="defaultButton" onclick="defaultClick()">恢复默认值</button>
+								<button id="defaultButton" onclick="defaultClick()">恢复默认</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="box-8">
-					<div>
+				<div class="box-8" id="results">
+					<div class="panel">
 						<div class="title">结果</div>
 						<div class="content">
 							<table id="TimelapsesTable" cellspacing="0">
@@ -89,7 +118,7 @@
 			</div>
 			<div class="boxes">
 				<div class="box-4">
-					<div>
+					<div class="panel">
 						<div class="title">读取存档</div>
 						<div class="content">
 							<textarea id="savegame" placeholder="存档粘贴处" autofocus onclick="this.focus();this.select()"></textarea>
@@ -98,9 +127,10 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<script src="pako-bundle.min.js"></script>
-		<script src="readSave.js"></script>
-		<script src="main.js"></script>
+		</main>
+		<script src="js/pako.min.js" defer></script>
+		<script src="js/readSave.js" defer></script>
+        <script src="js/checkAncients.js" defer></script>
+		<script src="js/main.js" defer></script>
 	</body>
 </html>
